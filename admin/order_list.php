@@ -70,6 +70,7 @@ if (!isset($_SESSION['username'])) {
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Order ID</th>
+                                                    <th scope="col">Order Status</th>
                                                     <th scope="col">Food Image</th>
                                                     <th scope="col">Food Name</th>
                                                     <th scope="col">Price</th>
@@ -81,18 +82,21 @@ if (!isset($_SESSION['username'])) {
                                             <tbody>
                                                 <?php
                                                 $state_query = "SELECT snacks.id as ID, snacks.uploaded_by, snacks.name, snacks.status, snacks.price, snacks.category, 
-                                                snacks.img, `order`.`id`, `order`.`snack_id`, `order`.`order_id`, `order`.`user_id`, `order`.`vendor_id`, vendor.r_name, users.email 
+                                                snacks.img, `order`.`id`, `order`.`snack_id`, `order`.`order_id`, `order`.`user_id`, `order`.`vendor_id`, vendor.r_name, 
+                                                users.email, order_details.status as orderstatus 
                                                 FROM `order` 
                                                 JOIN snacks ON `order`.`snack_id` = snacks.id 
                                                 JOIN vendor ON `order`.`vendor_id` = vendor.id
+                                                JOIN order_details ON `order`.`order_id` = order_details.order_id
                                                 JOIN users ON `order`.`user_id` = users.id";
                                                 $state_result = mysqli_query($db, $state_query);
                                                 $count = 1;
                                                 while ($r = mysqli_fetch_array($state_result)) { ?>
                                                     <tr>
                                                         <td><?php echo $r['order_id']; ?></td>
+                                                        <td><span class="badge badge-pill badge-primary"><?php echo $r['orderstatus']; ?></span></td>
                                                         <td><img src='/SnacksStation/uploads/admin-snacks-img/<?php echo $r['img']; ?>'></td>
-                                                        <td><?php echo $r['name']; ?></td>
+                                                        <td><a href='order_details.php?order_id=<?php echo $r["order_id"]; ?>'><?php echo $r['name']; ?></a></td>
                                                         <td><?php echo $r['price']; ?></td>
                                                         <td><?php echo $r['email']; ?></td>
                                                         <td><?php echo $r['r_name']; ?></td>

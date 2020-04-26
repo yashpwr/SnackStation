@@ -19,6 +19,7 @@ mysqli_query($db, $sql);
 $sql = "CREATE TABLE `order_details` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `order_id` varchar(100) NOT NULL,
+    `status` enum('pending','delivered') NOT NULL,
     `name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
     `address` varchar(100) NOT NULL,
@@ -26,10 +27,11 @@ $sql = "CREATE TABLE `order_details` (
     `state` varchar(100) NOT NULL,
     `country` varchar(100) NOT NULL,
     `pincode` int(11) NOT NULL,
-    `phone` int(11) NOT NULL,
+    `phone` varchar(200) NOT NULL,
     `trn_date` datetime NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
-mysqli_query($db, $sql);
+ mysqli_query($db, $sql);
+
 
 $emaill = $_SESSION['email'];
 $queryshow = "SELECT * from users WHERE email='" . $emaill . "'";
@@ -56,6 +58,7 @@ if (isset($_POST['submit'])) {
     $data = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcefghijklmnopqrstuvwxyz';
     $orderid = substr(str_shuffle($data), 0, 6);
     $order_id = $orderid;
+    $status = "pending";
     while ($roww = mysqli_fetch_array($res)) {
         $cart_id = $roww['cartid'];
         $vendor_id = $roww['vendor_id'];
@@ -80,8 +83,8 @@ if (isset($_POST['submit'])) {
             header("location:order-details.php");
         }
     }
-    $query4 = "INSERT INTO order_details (order_id, name, email, address, city, state, country, pincode, phone, trn_date)
-             VALUE ('$order_id','$name','$email','$address','$city','$state','$country','$pincode','$phone','$trn_date');";
+    $query4 = "INSERT INTO order_details (order_id, status, name, email, address, city, state, country, pincode, phone, trn_date)
+             VALUE ('$order_id','$status' ,'$name','$email','$address','$city','$state','$country','$pincode','$phone','$trn_date');";
              mysqli_query($db, $query4);
 }
 ?>

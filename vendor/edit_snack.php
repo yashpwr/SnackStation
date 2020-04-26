@@ -185,8 +185,9 @@ if (isset($_POST['submit']) && isset($_FILES['img'])) {
                                         <label for="validationCustom22">Status</label>
                                         <div class="input-group">
                                             <select class="form-control" id="validationCustom22" name="status" required>
-                                                <option value="in Stock">In Stock</option>
-                                                <option value="out of Stock">Out of Stock</option>
+                                                
+                                                <option <?php if($row2['status'] == "in Stock") echo "Selected"?> value="in Stock">In Stock</option>
+                                                <option <?php if($row2['status'] == "out of Stock") echo "Selected"?> value="out of Stock">Out of Stock</option>
                                             </select>
                                         </div>
                                     </div>
