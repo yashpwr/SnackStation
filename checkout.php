@@ -19,7 +19,7 @@ mysqli_query($db, $sql);
 $sql = "CREATE TABLE `order_details` (
     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `order_id` varchar(100) NOT NULL,
-    `status` enum('pending','delivered') NOT NULL,
+    `status` enum('pending','delivered','canceled') NOT NULL,
     `name` varchar(100) NOT NULL,
     `email` varchar(100) NOT NULL,
     `address` varchar(100) NOT NULL,

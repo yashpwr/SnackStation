@@ -66,7 +66,7 @@ $id = $rowuser['id'];
                     <?php
                     $queryshow = "SELECT snacks.id as ID, snacks.name, snacks.price, snacks.img, `order`.`snack_id`, `order`.`order_id`, 
                         `order`.`user_id`, vendor.r_name, users.email, order_details.name as oname, order_details.address, order_details.city, order_details.state,
-                        order_details.country, order_details.pincode, order_details.phone
+                        order_details.country, order_details.pincode, order_details.phone, order_details.status as orderstatus
                         FROM `order`
                         JOIN snacks ON `order`.`snack_id` = snacks.id 
                         JOIN vendor ON `order`.`vendor_id` = vendor.id
@@ -119,8 +119,9 @@ $id = $rowuser['id'];
                                 </div>
                                 <div class="col-lg-12">
                                     <?php
-                                    $quer = "SELECT snacks.id as ID, snacks.name, snacks.price, snacks.img
+                                    $quer = "SELECT snacks.id as ID, snacks.name, snacks.price, snacks.img, order_details.id as orderid, order_details.status
                                     FROM `order`
+                                    JOIN order_details ON `order`.`order_id` = order_details.order_id 
                                     JOIN snacks ON `order`.`snack_id` = snacks.id 
                                     WHERE `order`.user_id = '$id'";
                                     $res = mysqli_query($db, $quer);
@@ -138,6 +139,21 @@ $id = $rowuser['id'];
                                                 </div>
                                                 <div class="product-name"> <span><a href="#" class="text-light-white"><?php echo $r['name']; ?></a></span>
                                                 </div>
+                                                <?php if($r["status"] == "pending") {?>
+                                                <div class="product-value"> <span class="text-light-white"></span>
+                                                </div>
+                                                <div class="tags">
+                                                <a href="cancel-order.php?id=<?php echo $r["orderid"]; ?>"><span class="text-custom-white rectangle-tag bg-red">Cancel Order
+                                                </span></a>
+                                                </div>
+                                                <?php } ?>
+
+                                                <div class="product-value"> <span class="text-light-white"></span>
+                                                </div>
+                                                <div class="tags">
+                                                <span class="text-custom-white rectangle-tag bg-red"><?php echo $r["status"]; ?>
+                                                </span>
+                                            </div>
                                             </div>
                                             <div class="price"> <span class="text-light-white"> RS <?php echo $r['price']; ?></span>
                                             </div>
